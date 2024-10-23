@@ -10,5 +10,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return children
+  return (
+    <div className="flex h-screen bg-gray-100">
+      <div className="w-64 bg-white shadow-md">
+        <div className="p-4">
+          <h1 className="text-2xl font-bold">Redirector</h1>
+        </div>
+        <nav className="mt-4">
+          <a
+            href="#"
+            className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
+          >
+            Dashboard
+          </a>
+          <a
+            href="#"
+            className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
+          >
+            Analytics
+          </a>
+          <a
+            href="#"
+            className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
+          >
+            Settings
+          </a>
+        </nav>
+      </div>
+      {children}
+    </div>
+  )
 }

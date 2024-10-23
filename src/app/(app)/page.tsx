@@ -48,169 +48,135 @@ export default function WhatsAppRedirectorDashboard() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="w-64 bg-white shadow-md">
-        <div className="p-4">
-          <h1 className="text-2xl font-bold">Redirector</h1>
+    <div className="flex-1 p-8 overflow-auto">
+      <h2 className="text-3xl font-bold mb-6">WhatsApp Redirector Dashboard</h2>
+
+      {/* Existing Redirectors */}
+      <div className="bg-white p-6 rounded-lg shadow mb-6">
+        <h3 className="text-xl font-semibold mb-4">Existing Redirectors</h3>
+        <div className="space-y-4">
+          {redirectors.map((redirector) => (
+            <div
+              key={redirector.id}
+              className="flex items-center justify-between bg-gray-50 p-4 rounded"
+            >
+              <div>
+                <h4 className="font-semibold">{redirector.name}</h4>
+                <p className="text-sm text-gray-500">{redirector.url}</p>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => handleDeleteRedirector(redirector.id)}
+                    className="text-red-600"
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ))}
         </div>
-        <nav className="mt-4">
-          <a
-            href="#"
-            className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
-          >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
-          >
-            Analytics
-          </a>
-          <a
-            href="#"
-            className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
-          >
-            Settings
-          </a>
-        </nav>
       </div>
 
-      {/* Main content */}
-      <div className="flex-1 p-8 overflow-auto">
-        <h2 className="text-3xl font-bold mb-6">
-          WhatsApp Redirector Dashboard
-        </h2>
+      {/* Create New Redirector */}
+      <div className="bg-white p-6 rounded-lg shadow mb-6">
+        <h3 className="text-xl font-semibold mb-4">Create New Redirector</h3>
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              value={newRedirector.name}
+              onChange={(e) =>
+                setNewRedirector({ ...newRedirector, name: e.target.value })
+              }
+              placeholder="Enter redirector name"
+            />
+          </div>
+          <div>
+            <Label htmlFor="url">WhatsApp URL</Label>
+            <Input
+              id="url"
+              value={newRedirector.url}
+              onChange={(e) =>
+                setNewRedirector({ ...newRedirector, url: e.target.value })
+              }
+              placeholder="Enter WhatsApp group URL"
+            />
+          </div>
+          <Button onClick={handleAddRedirector}>
+            <Plus className="mr-2 h-4 w-4" /> Add Redirector
+          </Button>
+        </div>
+      </div>
 
-        {/* Existing Redirectors */}
-        <div className="bg-white p-6 rounded-lg shadow mb-6">
-          <h3 className="text-xl font-semibold mb-4">Existing Redirectors</h3>
-          <div className="space-y-4">
-            {redirectors.map((redirector) => (
-              <div
-                key={redirector.id}
-                className="flex items-center justify-between bg-gray-50 p-4 rounded"
-              >
-                <div>
-                  <h4 className="font-semibold">{redirector.name}</h4>
-                  <p className="text-sm text-gray-500">{redirector.url}</p>
+      {/* Configure Redirect */}
+      <div className="bg-white p-6 rounded-lg shadow mb-6">
+        <h3 className="text-xl font-semibold mb-4">Configure Redirect</h3>
+        <div className="space-y-4">
+          <div>
+            <Label htmlFor="redirect-url">Redirect URL</Label>
+            <Input id="redirect-url" placeholder="Enter custom redirect URL" />
+          </div>
+          <div>
+            <Label htmlFor="redirect-message">Redirect Message</Label>
+            <Textarea
+              id="redirect-message"
+              placeholder="Enter custom redirect message"
+            />
+          </div>
+          <Button>
+            <Settings className="mr-2 h-4 w-4" /> Save Configuration
+          </Button>
+        </div>
+      </div>
+
+      {/* Manage Groups */}
+      <div className="bg-white p-6 rounded-lg shadow">
+        <h3 className="text-xl font-semibold mb-4">Manage Groups</h3>
+        <div className="space-y-4">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Users className="mr-2 h-4 w-4" /> Add Group
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Add New Group</DialogTitle>
+                <DialogDescription>
+                  Enter the details for the new WhatsApp group.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="group-name" className="text-right">
+                    Name
+                  </Label>
+                  <Input id="group-name" className="col-span-3" />
                 </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <MoreVertical className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      onClick={() => handleDeleteRedirector(redirector.id)}
-                      className="text-red-600"
-                    >
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="group-url" className="text-right">
+                    URL
+                  </Label>
+                  <Input id="group-url" className="col-span-3" />
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Create New Redirector */}
-        <div className="bg-white p-6 rounded-lg shadow mb-6">
-          <h3 className="text-xl font-semibold mb-4">Create New Redirector</h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                value={newRedirector.name}
-                onChange={(e) =>
-                  setNewRedirector({ ...newRedirector, name: e.target.value })
-                }
-                placeholder="Enter redirector name"
-              />
-            </div>
-            <div>
-              <Label htmlFor="url">WhatsApp URL</Label>
-              <Input
-                id="url"
-                value={newRedirector.url}
-                onChange={(e) =>
-                  setNewRedirector({ ...newRedirector, url: e.target.value })
-                }
-                placeholder="Enter WhatsApp group URL"
-              />
-            </div>
-            <Button onClick={handleAddRedirector}>
-              <Plus className="mr-2 h-4 w-4" /> Add Redirector
-            </Button>
-          </div>
-        </div>
-
-        {/* Configure Redirect */}
-        <div className="bg-white p-6 rounded-lg shadow mb-6">
-          <h3 className="text-xl font-semibold mb-4">Configure Redirect</h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="redirect-url">Redirect URL</Label>
-              <Input
-                id="redirect-url"
-                placeholder="Enter custom redirect URL"
-              />
-            </div>
-            <div>
-              <Label htmlFor="redirect-message">Redirect Message</Label>
-              <Textarea
-                id="redirect-message"
-                placeholder="Enter custom redirect message"
-              />
-            </div>
-            <Button>
-              <Settings className="mr-2 h-4 w-4" /> Save Configuration
-            </Button>
-          </div>
-        </div>
-
-        {/* Manage Groups */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h3 className="text-xl font-semibold mb-4">Manage Groups</h3>
-          <div className="space-y-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button>
-                  <Users className="mr-2 h-4 w-4" /> Add Group
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Add New Group</DialogTitle>
-                  <DialogDescription>
-                    Enter the details for the new WhatsApp group.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="group-name" className="text-right">
-                      Name
-                    </Label>
-                    <Input id="group-name" className="col-span-3" />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="group-url" className="text-right">
-                      URL
-                    </Label>
-                    <Input id="group-url" className="col-span-3" />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit">Add Group</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
+              <DialogFooter>
+                <Button type="submit">Add Group</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>
