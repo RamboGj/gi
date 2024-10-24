@@ -1,4 +1,6 @@
+import { Toaster } from '@/components/ui/toaster'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,27 +19,22 @@ export default function RootLayout({
           <h1 className="text-2xl font-bold">Redirector</h1>
         </div>
         <nav className="mt-4">
-          <a
-            href="#"
+          <Link
+            href="/"
             className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
           >
-            Dashboard
-          </a>
-          <a
-            href="#"
-            className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
-          >
-            Analytics
-          </a>
-          <a
-            href="#"
+            Redirectors
+          </Link>
+          <Link
+            href="/profile"
             className="block py-2 px-4 text-gray-700 hover:bg-gray-200"
           >
             Settings
-          </a>
+          </Link>
         </nav>
       </div>
       {children}
+      <Toaster />
     </div>
   )
 }
